@@ -1,0 +1,27 @@
+{
+  "name": "open-app",
+  "version": "1.0.0",
+  "description": "开放应用",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline --colors --progress",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Youwei",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.23.0",
+    "html-webpack-plugin": "^1.7.0",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "file-loader": "^0.8.5",
+    "jquery": "^2.1.4",
+    "moment": "^2.10.6",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
+    "url-loader": "^0.5.7"
+  }
+}
