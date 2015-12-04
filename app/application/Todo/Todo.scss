@@ -1,0 +1,68 @@
+.todo {
+    .todo-sidebar {
+        left: 0;
+        bottom: 0;
+        top:74px;
+        width: 73px;
+        transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+        border-right: 1px solid #ececec;
+        background-color: #f8f8f8;
+        float: left;
+        padding: 12px 12px 24px 17px;
+        z-index: 200;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .todo-classify {
+        left: 73px;
+        width: 260px;
+        bottom: 0;
+        top:74px;
+        transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+        border-right: 1px solid #ececec;
+        float: left;
+        padding: 12px 12px 24px 17px;
+        z-index: 200;
+        box-sizing: border-box;
+        position: absolute;
+        color: #878787;
+    }
+
+    .todo-container {
+        position: absolute;
+        left: 333px;
+        right: 0;
+        bottom: 0;
+        top:74px;
+        transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+        border-right: 1px solid #ececec;
+        z-index: 200;
+        box-sizing: border-box;
+        color: #878787;
+        padding: 20px 40px;
+
+        .todo-add-item{
+            width: 100%;
+            line-height: 1.5em;
+            font-size: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin: 10px auto;
+        }
+
+        .todo-list{
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: scroll;
+            padding: 10px 40px;
+            li{
+                padding: 5px 10px;
+                color: #878787;
+            }
+        }
+    }
+}

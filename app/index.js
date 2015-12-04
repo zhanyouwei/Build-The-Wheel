@@ -3,15 +3,30 @@
  * Created by Youwei on 15/12/3.
  */
 
-require('./styles/main.scss');
-var $ = require('jquery');
-var moment = require('moment');
-
-
-var sub = require('./sub');
-
 var app = document.createElement('div');
-app.innerHTML = '<h1>Hello World</h1>';
-app.appendChild(sub());
 document.body.appendChild(app);
-$('body').append('<p>time now ' + moment().format() + '</p>');
+
+require('./styles/main.scss');
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+var {Router,IndexRoute, Route, Routes,History,Link} = require('react-router');
+var Cookie = require('react-cookie');
+
+var App = require('./App');
+var Home = require('./Home');
+var Todo = require('./application/Todo');
+
+ReactDOM.render((
+  <Router>
+    <Route name="app" path="/" component={App}>
+      <Route name="todo" path="/todo" component={Todo}/>
+      <IndexRoute name="home" component={Home}/>
+    </Route>
+    <Route path="*" component={App}/>
+  </Router>
+), app);
+
+//if (!Cookie.load('uid') || !Cookie.load('access_token')) {
+//  location.href = "#/login";
+//}

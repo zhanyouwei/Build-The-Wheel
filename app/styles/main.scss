@@ -1,8 +1,81 @@
 @import "variables";
+@import "base";
 
 h1 {
   color: $yellow;
   display: block;
   height: 300px;
   background: url("../images/wujiaochang.png");
+}
+
+:root {
+  --brand-color: #61dafb;
+}
+
+.Header {
+  background: #1fbc5a;
+  color: #fff;
+}
+
+.Header-container {
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.Header-brand {
+  text-decoration: none;
+  font-size: 1.75em; /* ~28px */
+}
+
+.Header-brand:hover {
+  text-decoration: none;
+}
+
+.Header-brandTxt {
+  margin-left: 10px;
+  color: white;
+}
+
+.Header-nav {
+  float: right;
+  margin-top: 6px;
+}
+
+.Header-banner {
+  text-align: center;
+}
+
+.Header-bannerTitle {
+  margin: 0;
+  padding: 10px;
+  font-weight: normal;
+  font-size: 4em;
+  line-height: 1em;
+}
+
+.Header-bannerDesc {
+  padding: 0;
+  color: rgba(255, 255, 255, .5);
+  font-size: 1.25em;
+  margin: 0;
+}
+
+.container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  padding-top: 24px;
+}
+
+.block {
+  width: 50%;
+  float: left;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.block .img-block {
+  margin-right: .5em;
 }
