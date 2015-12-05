@@ -21,6 +21,7 @@ ReactDOM.render((
   <Router>
     <Route name="app" path="/" component={App}>
       <Route name="todo" path="/todo" component={Todo}/>
+      <Route name="todo" path="/chat" component={Todo}/>
       <IndexRoute name="home" component={Home}/>
     </Route>
     <Route path="*" component={App}/>
