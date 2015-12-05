@@ -15,15 +15,17 @@ var Cookie = require('react-cookie');
 
 var App = require('./App');
 var Home = require('./Home');
-var Todo = require('./application/Todo');
+var LoginPage = require('./components/LoginPage');
+var TodoApp = require('./application/Todo/js/components/TodoApp.react');
 
 ReactDOM.render((
   <Router>
     <Route name="app" path="/" component={App}>
-      <Route name="todo" path="/todo" component={Todo}/>
-      <Route name="todo" path="/chat" component={Todo}/>
+      <Route name="todo" path="/todo" component={TodoApp}/>
+      <Route name="todo" path="/chat" component={TodoApp}/>
       <IndexRoute name="home" component={Home}/>
     </Route>
+    <Route path="/login" component={LoginPage}/>
     <Route path="*" component={App}/>
   </Router>
 ), app);

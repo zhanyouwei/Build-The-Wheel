@@ -1,6 +1,17 @@
+/*
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * TodoStore
+ */
+
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var TodoConstants = require('../constants/ActionTypes');
+var TodoConstants = require('../constants/TodoConstants');
 var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
@@ -83,6 +94,7 @@ var TodoStore = assign({}, EventEmitter.prototype, {
    * @return {object}
    */
   getAll: function() {
+    console.log(localStorage.todos);
     return _todos;
   },
 
@@ -108,8 +120,9 @@ var TodoStore = assign({}, EventEmitter.prototype, {
 // Register callback to handle all updates
 AppDispatcher.register(function(action) {
   var text;
-
+  console.log(action);
   switch(action.actionType) {
+
     case TodoConstants.TODO_CREATE:
       text = action.text.trim();
       if (text !== '') {
@@ -156,7 +169,7 @@ AppDispatcher.register(function(action) {
       break;
 
     default:
-    // no op
+      // no op
   }
 });
 
