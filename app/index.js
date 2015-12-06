@@ -17,12 +17,13 @@ var App = require('./App');
 var Home = require('./Home');
 var LoginPage = require('./components/LoginPage');
 var TodoApp = require('./application/Todo/js/components/TodoApp.react');
+var ChatApp = require('./application/Chat/js/components/ChatApp.react');
 
 ReactDOM.render((
   <Router>
     <Route name="app" path="/" component={App}>
       <Route name="todo" path="/todo" component={TodoApp}/>
-      <Route name="todo" path="/chat" component={TodoApp}/>
+      <Route name="todo" path="/chat" component={ChatApp}/>
       <IndexRoute name="home" component={Home}/>
     </Route>
     <Route path="/login" component={LoginPage}/>

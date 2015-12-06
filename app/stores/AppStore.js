@@ -1,13 +1,14 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var TodoConstants = require('../constants/TodoConstants');
+var AppConstants = require('../constants/AppConstants');
 var assign = require('object-assign');
 var superagent = require('superagent');
 
 const LOGIN_EVENT = 'login';//登录事件
 var CHANGE_EVENT = 'change';
 
-var _todos = {};
+let userObjectId = localStorage.getItem('WEB_APP_ID');
+var _loginUserInfo = userObjectId ? JSON.parse(localStorage.getItem(userObjectId)) : null;
 
 /**
  * 用户登录
@@ -23,7 +24,10 @@ function login(email, pass, callback) {
       'X-LC-Key': 'qXh9eqznzTdezr5znN8PqWEV'
     })
     .accept('application/json')
-    .query(data)
+    .query({
+      username: email,
+      password: pass
+    })
     .end((err, res) => {
       if (err) {
         if (err.status === 404) {
@@ -38,41 +42,96 @@ function login(email, pass, callback) {
     });
 }
 
+/**
+ * 用户注册
+ * @param email
+ * @param pass
+ * @param callback
+ */
+function register(email, pass, callback) {
+  superagent
+    .post('https://api.leancloud.cn/1.1/users')
+    .set({
+      'X-LC-Id': 'tnoc9Hlo0Di1s6jKdq25vJSp',
+      'X-LC-Key': 'qXh9eqznzTdezr5znN8PqWEV'
+    })
+    .accept('application/json')
+    .send({
+      email: email,
+      pass: pass
+    })
+    .end((err, res) => {
+      console.log(res.body);
+      if (err) {
+        if (err.status === 404) {
+          console.log(err);
+        } else {
+          console.log(err.error);
+        }
+      } else {
+        console.log(res.body);
+      }
+    });
+}
+
 var AppStore = assign({}, EventEmitter.prototype, {
+  getLoginUserInfo: function () {
+    return _loginUserInfo;
+  },
 
   emitEvent: function (event) {
     this.emit(event);
   },
 
   /**
-   * @param {function} callback
+   *
+   * @param eventName
+   * @param callback
    */
-  addChangeListener: function (callback) {
-    this.on(CHANGE_EVENT, callback);
+  addEventListener: function (eventName, callback) {
+    this.on(eventName, callback);
   },
 
   /**
-   * @param {function} callback
+   *
+   * @param eventName
+   * @param callback
    */
-  removeChangeListener: function (callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+  removeEventListener: function (eventName, callback) {
+    this.removeListener(eventName, callback);
   }
 });
 
 // Register callback to handle all updates
 AppDispatcher.register(function (action) {
-  var data;
-  console.log(action);
+  var email, pass;
   switch (action.actionType) {
-    case TodoConstants.APP_LOGIN:
-      data = action.data;
-      if (data !== null && data.email !== '' && data.pass !== '') {
-        login(data.email, data.pass);
-        AppStore.emitEvent(LOGIN_EVENT);
+    case AppConstants.APP_LOGIN:
+      email = action.email;
+      pass = action.pass;
+      if (email !== '' && pass !== '') {
+        login(email, pass, function (err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            _loginUserInfo = result;
+            localStorage.setItem('WEB_APP_ID', result['objectId']);
+            localStorage.setItem(result['objectId'], JSON.stringify(result));
+            AppStore.emitEvent(LOGIN_EVENT);
+          }
+        });
+      }
+      break;
+    case AppConstants.APP_REGISTER:
+      email = action.email;
+      pass = action.pass;
+      if (email !== '' && pass !== '') {
+        login(email, pass, function (err, result) {
+          AppStore.emitEvent(LOGIN_EVENT);
+        });
       }
       break;
     default:
-      break;
     // no op
   }
 });

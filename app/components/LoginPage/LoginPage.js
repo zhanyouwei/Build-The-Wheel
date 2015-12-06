@@ -6,6 +6,8 @@ var React = require('react');
 
 var AppActions = require('../../actions/AppActions');
 
+var AppStore = require('../../stores/AppStore');
+
 var LoginPage = React.createClass({
   getInitialState: function () {
     return {
@@ -14,9 +16,14 @@ var LoginPage = React.createClass({
     }
   },
 
-  loginHandle: function (e) {
-    AppActions.login(this.state.email, this.state.pass);
+  componentDidMount: function () {
+    AppStore.addEventListener('login', this._onChange);
   },
+
+  componentWillUnmount: function () {
+    AppStore.removeEventListener('login', this._onChange);
+  },
+
   render: function () {
     const title = 'Log In';
     return (
@@ -42,6 +49,9 @@ var LoginPage = React.createClass({
     );
   },
 
+  loginHandle: function (e) {
+    AppActions.login(this.state.email, this.state.pass);
+  },
   handleChange: function (key) {
     let that = this;
     return function (e) {
@@ -49,6 +59,9 @@ var LoginPage = React.createClass({
       newState[key] = e.target.value;
       that.setState(newState);
     }
+  },
+  _onChange: function () {
+    location.href = "/";
   }
 });
 

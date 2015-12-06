@@ -20,72 +20,19 @@ var TodoActions = {
    * @param pass
    */
   login: function (email, pass) {
-    console.log(email);
     AppDispatcher.dispatch({
       actionType: AppConstants.APP_LOGIN,
-      data: {
-        email: email,
-        pass: pass
-      }
+      email: email,
+      pass: pass
     });
   },
-
-  /**
-   * @param  {string} id The ID of the ToDo item
-   * @param  {string} text
-   */
-  updateText: function (id, text) {
+  register: function (email, pass) {
     AppDispatcher.dispatch({
-      actionType: AppConstants.TODO_UPDATE_TEXT,
-      id: id,
-      text: text
-    });
-  },
-
-  /**
-   * Toggle whether a single ToDo is complete
-   * @param  {object} todo
-   */
-  toggleComplete: function (todo) {
-    var id = todo.id;
-    var actionType = todo.complete ?
-      AppConstants.TODO_UNDO_COMPLETE :
-      AppConstants.TODO_COMPLETE;
-
-    AppDispatcher.dispatch({
-      actionType: actionType,
-      id: id
-    });
-  },
-
-  /**
-   * Mark all ToDos as complete
-   */
-  toggleCompleteAll: function () {
-    AppDispatcher.dispatch({
-      actionType: AppConstants.TODO_TOGGLE_COMPLETE_ALL
-    });
-  },
-
-  /**
-   * @param  {string} id
-   */
-  destroy: function (id) {
-    AppDispatcher.dispatch({
-      actionType: AppConstants.TODO_DESTROY,
-      id: id
-    });
-  },
-
-  /**
-   * Delete all the completed ToDos
-   */
-  destroyCompleted: function () {
-    AppDispatcher.dispatch({
-      actionType: AppConstants.TODO_DESTROY_COMPLETED
+      actionType: AppConstants.APP_REGISTER,
+      email: email,
+      pass: pass
     });
   }
-
 };
 
 module.exports = TodoActions;

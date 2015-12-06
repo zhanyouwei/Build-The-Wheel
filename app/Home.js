@@ -12,7 +12,7 @@ var Home = React.createClass({
         <div className="container">
           <div className="clearfix">
             <div className="block">
-              <h3>Open Chat</h3>
+              <a href="#/chat"><h3>Open Chat</h3></a>
 
               <p>
                 开放聊天室
