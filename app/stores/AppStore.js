@@ -5,6 +5,7 @@ var assign = require('object-assign');
 var superagent = require('superagent');
 
 const LOGIN_EVENT = 'login';//登录事件
+const REGISTER_EVENT = 'register';//注册事件
 var CHANGE_EVENT = 'change';
 
 let userObjectId = localStorage.getItem('WEB_APP_ID');
@@ -57,19 +58,19 @@ function register(email, pass, callback) {
     })
     .accept('application/json')
     .send({
-      email: email,
-      pass: pass
+      username: email,
+      password: pass
     })
     .end((err, res) => {
-      console.log(res.body);
       if (err) {
         if (err.status === 404) {
           console.log(err);
         } else {
           console.log(err.error);
         }
+        callback(err, null);
       } else {
-        console.log(res.body);
+        callback(null, res.body);
       }
     });
 }
@@ -115,6 +116,7 @@ AppDispatcher.register(function (action) {
             console.log(err);
           } else {
             _loginUserInfo = result;
+            localStorage.removeItem(localStorage.getItem('WEB_APP_ID'));
             localStorage.setItem('WEB_APP_ID', result['objectId']);
             localStorage.setItem(result['objectId'], JSON.stringify(result));
             AppStore.emitEvent(LOGIN_EVENT);
@@ -126,8 +128,14 @@ AppDispatcher.register(function (action) {
       email = action.email;
       pass = action.pass;
       if (email !== '' && pass !== '') {
-        login(email, pass, function (err, result) {
-          AppStore.emitEvent(LOGIN_EVENT);
+        register(email, pass, function (err, result) {
+          if (result) {
+            _loginUserInfo = result;
+            localStorage.removeItem(localStorage.getItem('WEB_APP_ID'));
+            localStorage.setItem('WEB_APP_ID', result['objectId']);
+            localStorage.setItem(result['objectId'], JSON.stringify(result));
+            AppStore.emitEvent(REGISTER_EVENT);
+          }
         });
       }
       break;

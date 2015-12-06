@@ -1,11 +1,9 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+import styles from './RegisterPage.scss';
 
 import React, { PropTypes, Component } from 'react';
-import withStyles from '../../decorators/withStyles';
-import styles from './RegisterPage.css';
-import http from '../../core/HttpClient';
-import superagent from 'superagent';
-
+var AppActions = require('../../actions/AppActions');
+var AppStore = require('../../stores/AppStore');
 
 var RegisterPage = React.createClass({
   getInitialState: function () {
@@ -15,9 +13,14 @@ var RegisterPage = React.createClass({
     }
   },
 
-  registerHandle: function (e) {
-    AppActions.register(this.state.email, this.state.pass);
+  componentDidMount: function () {
+    AppStore.addEventListener('register', this._onChange);
   },
+
+  componentWillUnmount: function () {
+    AppStore.removeEventListener('register', this._onChange);
+  },
+
   render: function () {
     const title = 'New User Registration';
     return (
@@ -26,19 +29,25 @@ var RegisterPage = React.createClass({
           <h1>{title}</h1>
 
           <p>
-            <input type="text" placeholder="邮箱" value={this.state.email} onChange={this.handleChange('email')}/>
+            <input type="text" placeholder="邮箱" value={this.state.email} onChange={this.handleChange('email')}
+                   className="form-control"/>
           </p>
 
           <p>
-            <input type="password" placeholder="密码" value={this.state.pass} onChange={this.handleChange('pass')}/>
+            <input type="password" placeholder="密码" value={this.state.pass} onChange={this.handleChange('pass')}
+                   className="form-control"/>
           </p>
 
           <p>
-            <input type="button" value="注册" onClick={this.registerHandle}/>
+            <button onClick={this.registerHandle} className="btn">注册</button>
           </p>
         </div>
       </div>
     );
+  },
+
+  registerHandle: function (e) {
+    AppActions.register(this.state.email, this.state.pass);
   },
 
   handleChange: function (key) {
@@ -48,6 +57,9 @@ var RegisterPage = React.createClass({
       newState[key] = e.target.value;
       that.setState(newState);
     }
+  },
+  _onChange: function () {
+    location.href = "/";
   }
 });
 

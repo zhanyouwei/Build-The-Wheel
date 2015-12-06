@@ -16,6 +16,7 @@ var Cookie = require('react-cookie');
 var App = require('./App');
 var Home = require('./Home');
 var LoginPage = require('./components/LoginPage');
+let RegisterPage = require('./components/RegisterPage');
 var TodoApp = require('./application/Todo/js/components/TodoApp.react');
 var ChatApp = require('./application/Chat/js/components/ChatApp.react');
 
@@ -27,6 +28,7 @@ ReactDOM.render((
       <IndexRoute name="home" component={Home}/>
     </Route>
     <Route path="/login" component={LoginPage}/>
+    <Route path="/register" component={RegisterPage}/>
     <Route path="*" component={App}/>
   </Router>
 ), app);
