@@ -1,6 +1,6 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 
-require('./LoginPage.css');
+require('./LoginPage.scss');
 
 var React = require('react');
 
@@ -42,7 +42,7 @@ var LoginPage = React.createClass({
           </p>
 
           <p>
-            <input type="button" value="登录" onClick={this.loginHandle}/>
+            <button onClick={this.loginHandle} className="btn">登录</button>
           </p>
         </div>
       </div>

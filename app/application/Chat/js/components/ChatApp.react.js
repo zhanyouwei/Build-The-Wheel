@@ -35,7 +35,13 @@ function initRealtime(loginUserInfo, callback) {
   realtimeObj.on('open', function () {
     console.log('实时通信服务建立成功！');
 
-
+    callback(realtimeObj);
+    // 创建一个聊天室，conv 是 conversation 的缩写，也可以用 room 方法替换
+    //conversationObj = realtimeObj.conv('566423e860b21eab5d566109', function (data) {
+    //  if (data) {
+    //    console.log('Conversation 创建成功!', data);
+    //  }
+    //});
   });
 
 // 当聊天断开时触发
@@ -119,8 +125,7 @@ var TodoApp = React.createClass({
     return {
       sendText: '',
       loginUserInfo: AppStore.getLoginUserInfo(),
-      realtimeObj: null,
-      conversationObj: null
+      realtimeObj: null
     };
   },
 
@@ -129,8 +134,7 @@ var TodoApp = React.createClass({
     if (this.state.loginUserInfo) {
       initRealtime(this.state.loginUserInfo, function (realtimeObj, conversationObj) {
         _this.setState({
-          realtimeObj: realtimeObj,
-          conversationObj: conversationObj
+          realtimeObj: realtimeObj
         });
       });
     } else {
