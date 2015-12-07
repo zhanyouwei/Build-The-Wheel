@@ -44,6 +44,10 @@ module.exports = {
         include: APP_PATH
       },
       {
+        test: /\.less$/,
+        loader: 'style-loader!css-loader!less-loader'
+      },
+      {
         test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=819200',
         include: APP_PATH
@@ -58,7 +62,9 @@ module.exports = {
   //自动生成一个html文件
   plugins: [
     new HtmlwebpackPlugin({
-      title: 'React Application Demo'
+      title: 'React Application Demo',
+      template: 'app/my-index.html',
+      inject: 'body' // Inject all scripts into the body
     })
   ]
 };

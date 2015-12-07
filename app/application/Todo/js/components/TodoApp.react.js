@@ -13,7 +13,7 @@
  */
 
 require('../../todomvc-common/base.css');
-require('../../css/app.css');
+require('../../css/app.scss');
 
 var Footer = require('./Footer.react');
 var Header = require('./Header.react');

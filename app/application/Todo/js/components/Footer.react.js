@@ -20,7 +20,7 @@ var Footer = React.createClass({
   /**
    * @return {object}
    */
-  render: function() {
+  render: function () {
     var allTodos = this.props.allTodos;
     var total = Object.keys(allTodos).length;
 
@@ -50,13 +50,14 @@ var Footer = React.createClass({
         </button>;
     }
 
-  	return (
+    return (
       <footer id="footer">
         <span id="todo-count">
           <strong>
             {itemsLeft}
           </strong>
           {itemsLeftPhrase}
+          <a onClick=""><i className="fa fa-cog ml10"></i></a>
         </span>
         {clearCompletedButton}
       </footer>
@@ -66,7 +67,7 @@ var Footer = React.createClass({
   /**
    * Event handler to delete all completed TODOs
    */
-  _onClearCompletedClick: function() {
+  _onClearCompletedClick: function () {
     TodoActions.destroyCompleted();
   }
 

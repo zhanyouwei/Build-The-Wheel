@@ -13,10 +13,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
 var assign = require('object-assign');
+const moment = require('moment');
+var localstorage = require('../core/localstorage.util');
 
 var CHANGE_EVENT = 'change';
 
-var _todos = {};
+var _todos = JSON.parse(localStorage.getItem('todos')) || {};
 
 /**
  * Create a TODO item.
@@ -30,8 +32,11 @@ function create(text) {
   _todos[id] = {
     id: id,
     complete: false,
-    text: text
+    text: text,
+    createdAt: moment().unix(),
+    completeAt: null
   };
+  localStorage.setItem('todos', JSON.stringify(_todos));
 }
 
 /**
@@ -42,6 +47,7 @@ function create(text) {
  */
 function update(id, updates) {
   _todos[id] = assign({}, _todos[id], updates);
+  localStorage.setItem('todos', JSON.stringify(_todos));
 }
 
 /**
@@ -61,6 +67,7 @@ function updateAll(updates) {
  */
 function destroy(id) {
   delete _todos[id];
+  localStorage.setItem('todos', JSON.stringify(_todos));
 }
 
 /**
@@ -72,6 +79,7 @@ function destroyCompleted() {
       destroy(id);
     }
   }
+  localStorage.setItem('todos', JSON.stringify(_todos));
 }
 
 var TodoStore = assign({}, EventEmitter.prototype, {
@@ -80,7 +88,7 @@ var TodoStore = assign({}, EventEmitter.prototype, {
    * Tests whether all the remaining TODO items are marked as completed.
    * @return {boolean}
    */
-  areAllComplete: function() {
+  areAllComplete: function () {
     for (var id in _todos) {
       if (!_todos[id].complete) {
         return false;
@@ -93,35 +101,33 @@ var TodoStore = assign({}, EventEmitter.prototype, {
    * Get the entire collection of TODOs.
    * @return {object}
    */
-  getAll: function() {
-    console.log(localStorage.todos);
+  getAll: function () {
     return _todos;
   },
 
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
   /**
    * @param {function} callback
    */
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
   /**
    * @param {function} callback
    */
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
 });
 
 // Register callback to handle all updates
-AppDispatcher.register(function(action) {
+AppDispatcher.register(function (action) {
   var text;
-  console.log('1111');
-  switch(action.actionType) {
+  switch (action.actionType) {
 
     case TodoConstants.TODO_CREATE:
       text = action.text.trim();
@@ -133,20 +139,20 @@ AppDispatcher.register(function(action) {
 
     case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
       if (TodoStore.areAllComplete()) {
-        updateAll({complete: false});
+        updateAll({complete: false,completeAt:null});
       } else {
-        updateAll({complete: true});
+        updateAll({complete: true,completeAt:moment().unix()});
       }
       TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_UNDO_COMPLETE:
-      update(action.id, {complete: false});
+      update(action.id, {complete: false,completeAt:null});
       TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_COMPLETE:
-      update(action.id, {complete: true});
+      update(action.id, {complete: true,completeAt:moment().unix()});
       TodoStore.emitChange();
       break;
 
@@ -169,7 +175,7 @@ AppDispatcher.register(function(action) {
       break;
 
     default:
-      // no op
+    // no op
   }
 });
 
