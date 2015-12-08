@@ -3,7 +3,6 @@ require('./Todo.scss');
 var React = require('react');
 var Link = require('react-router');
 var classNames = require('classnames');
-
 var TodoActions = require('./actions/TodoActions');
 var TodoStore = require('./stores/TodoStore');
 

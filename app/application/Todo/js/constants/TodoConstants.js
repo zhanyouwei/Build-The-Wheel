@@ -18,5 +18,6 @@ module.exports = keyMirror({
   TODO_DESTROY_COMPLETED: null,
   TODO_TOGGLE_COMPLETE_ALL: null,
   TODO_UNDO_COMPLETE: null,
-  TODO_UPDATE_TEXT: null
+  TODO_UPDATE_TEXT: null,
+  TODO_CLASSIFY_CREATE: null
 });

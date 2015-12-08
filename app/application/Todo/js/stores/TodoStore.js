@@ -1,17 +1,12 @@
-/*
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * TodoStore
+/**
+ * Copyright 2015 kaiheiwang Corporation. All rights reserved.
+ * Created by Youwei on 15/12/8.
  */
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
+var AppConstants = require('../../../../constants/AppConstants');
 var assign = require('object-assign');
 const moment = require('moment');
 const superagent = require('superagent');
@@ -26,7 +21,7 @@ var _todos = JSON.parse(localStorage.getItem('todos')) || {};
  * @param  {string} text The content of the TODO
  * @param callback
  */
-function create(text,callback) {
+function create(text, callback) {
   // Hand waving here -- not showing how this interacts with XHR or persistent
   // server-side storage.
   // Using the current timestamp + random number in place of a real id.
@@ -36,10 +31,10 @@ function create(text,callback) {
     completeAt: null
   };
   superagent
-    .post('https://api.leancloud.cn/1.1/classes/Todo')
+    .post(AppConstants.LC.URL + '/classes/Todo')
     .set({
-      'X-LC-Id': 'H7CTUT7nifyX9bC88HVfnuMM',
-      'X-LC-Key': '8kUbCGgOvML7xtFMLPOQgoQ6'
+      'X-LC-Id': AppConstants.LC.X_LC_Id,
+      'X-LC-Key': AppConstants.LC.X_LC_Key
     })
     .accept('application/json')
     .send(todo)
@@ -59,7 +54,6 @@ function create(text,callback) {
         callback(null, res.body);
       }
     });
-
 }
 
 /**
@@ -156,7 +150,7 @@ AppDispatcher.register(function (action) {
       text = action.text.trim();
       if (text !== '') {
         create(text, function (err, result) {
-          if(!err) {
+          if (!err) {
             TodoStore.emitChange();
           }
         });

@@ -78,8 +78,19 @@ var TodoActions = {
     AppDispatcher.dispatch({
       actionType: TodoConstants.TODO_DESTROY_COMPLETED
     });
-  }
+  },
 
+  /**
+   *
+   * @param {string} text
+   */
+  createClassify: function (text) {
+    console.log(text);
+    AppDispatcher.dispatch({
+      actionType: TodoConstants.TODO_CLASSIFY_CREATE,
+      text: text
+    });
+  }
 };
 
 module.exports = TodoActions;
