@@ -11,6 +11,7 @@ var assign = require('object-assign');
 const moment = require('moment');
 const superagent = require('superagent');
 var localstorage = require('../core/localstorage.util');
+var AppConfig = require('../../../../config/app.config');
 
 var CHANGE_EVENT = 'change';
 
@@ -33,8 +34,8 @@ function create(text, callback) {
   superagent
     .post(AppConstants.LC.URL + '/classes/Todo')
     .set({
-      'X-LC-Id': AppConstants.LC.X_LC_Id,
-      'X-LC-Key': AppConstants.LC.X_LC_Key
+      'X-LC-Id': AppConfig.LC.X_LC_Id,
+      'X-LC-Key': AppConfig.LC.X_LC_Key
     })
     .accept('application/json')
     .send(todo)

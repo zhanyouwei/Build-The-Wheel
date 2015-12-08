@@ -12,14 +12,18 @@ var Home = React.createClass({
         <div className="container">
           <div className="clearfix">
             <div className="block">
-              <a href="#/chat"><h3>Open Chat</h3></a>
+              <a href="#/chat">
+                <h3><i className="fa fa-paper-plane-o mr10"></i>Open Chat</h3>
+              </a>
 
               <p>
                 开放聊天室
               </p>
             </div>
             <div className="block">
-              <a href="#/todo"> <h3>Open Todo</h3></a>
+              <a href="#/todo">
+                <h3><i className="fa fa-list-ol mr10"></i>Open Todo</h3>
+              </a>
 
               <p>
                 开放任务列表应用

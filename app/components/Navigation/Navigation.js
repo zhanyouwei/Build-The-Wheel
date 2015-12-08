@@ -15,9 +15,20 @@ var Navigation = React.createClass({
     let element;
     if (this.state.loginUserInfo) {
       element = (
-        <span>
-          {this.state.loginUserInfo.username}
-          <a onClick={this.handleLogOut} className="ml10 Navigation-link Navigation-link--highlight">logOut</a>
+        <span className="Navigation-login">
+          <span className="ml10 Navigation-link Navigation-link--highlight dropdown">
+            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {this.state.loginUserInfo.username}
+              <span className="caret"></span>
+            </button>
+            <ul className="dropdown-menu card" aria-labelledby="dLabel">
+              <li><a href="#">账号设置</a></li>
+              <li><a href="#">偏好设置</a></li>
+              <li className="underscore">
+                <a onClick={this.handleLogOut} >退出登录</a>
+              </li>
+            </ul>
+          </span>
         </span>
       );
     } else {

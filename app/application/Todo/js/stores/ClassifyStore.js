@@ -11,10 +11,11 @@ var assign = require('object-assign');
 const moment = require('moment');
 const superagent = require('superagent');
 var localstorage = require('../core/localstorage.util');
+var AppConfig = require('../../../../config/app.config');
 
 var CHANGE_EVENT = 'change';
 var ADD_EVENT = 'add';
-const PREFIX = AppConstants.APP_PREFIX;
+const PREFIX = AppConfig.APP_PREFIX;
 
 var _classifys = JSON.parse(localStorage.getItem('classify')) || {};
 
@@ -33,32 +34,32 @@ function addClassify(text, callback) {
   _classifys[id] = assign(classify, {
     id: id
   });
-  console.log(AppConstants.LC.X_LC_Id);
+  console.log(AppConfig.LC.X_LC_Id);
   localStorage.setItem(PREFIX + '_classifys', JSON.stringify(_classifys));
-  //superagent
-  //  .post(AppConstants.LC.URL + '/classes/Todo')
-  //  .set({
-  //    'X-LC-Id': AppConstants.LC.X_LC_Id,
-  //    'X-LC-Key': AppConstants.LC.X_LC_Key
-  //  })
-  //  .accept('application/json')
-  //  .send(todo)
-  //  .end((err, res) => {
-  //    if (err) {
-  //      if (err.status === 404) {
-  //        console.log(err);
-  //      } else {
-  //        console.log(err.error);
-  //      }
-  //      callback(err, null);
-  //    } else {
-  //      _todos[res.body.objectId] = assign(todo, {
-  //        id: res.body.objectId
-  //      }, res.body);
-  //      localStorage.setItem('todos', JSON.stringify(_todos));
-  //      callback(null, res.body);
-  //    }
-  //  });
+  superagent
+    .post(AppConstants.LC.URL + '/classes/TodoClassify')
+    .set({
+      'X-LC-Id': AppConfig.LC.X_LC_Id,
+      'X-LC-Key': AppConfig.LC.X_LC_Key
+    })
+    .accept('application/json')
+    .send(todo)
+    .end((err, res) => {
+      if (err) {
+        if (err.status === 404) {
+          console.log(err);
+        } else {
+          console.log(err.error);
+        }
+        callback(err, null);
+      } else {
+        _todos[res.body.objectId] = assign(todo, {
+          id: res.body.objectId
+        }, res.body);
+        localStorage.setItem('todos', JSON.stringify(_todos));
+        callback(null, res.body);
+      }
+    });
 }
 
 var ClassifyStore = assign({}, EventEmitter.prototype, {

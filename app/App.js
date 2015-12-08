@@ -1,5 +1,7 @@
 var React = require('react');
 var Link = require('react-router');
+var {dropdown} = require('bootstrap-sass');
+
 import Navigation from './components/Navigation';
 
 var App = React.createClass({
@@ -9,7 +11,7 @@ var App = React.createClass({
         <div className="Header">
           <div className="Header-container">
             <a className="Header-brand" href="/" onClick={Link.handleClick}>
-              <span className="Header-brandTxt">React Application Demo </span>
+              <span className="Header-brandTxt">Build The Wheel </span>
             </a>
             <Navigation className="Header-nav"/>
           </div>
