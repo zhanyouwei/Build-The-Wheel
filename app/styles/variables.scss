@@ -1,5 +1,12 @@
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+
 $red: red;
 $yellow: yellow;
-$primary-color: #1fbc5a;
+
+$green-base:              green !default;
+$green-darker:            #039924 !default; // #222
+$green-dark:              #03ae24 !default;   // #333
+$green:                   #2dbe60 !default; // #555
+$green-light:             #03bc2c !default; // #777
+$green-lighter:           #03c628 !default; // #eee

@@ -1,4 +1,4 @@
-require('./Navigation.css');
+require('./Navigation.scss');
 
 var React = require('react');
 var Link = require('react-router');
@@ -23,9 +23,11 @@ var Navigation = React.createClass({
             </button>
             <ul className="dropdown-menu card" aria-labelledby="dLabel">
               <li><a href="#">账号设置</a></li>
-              <li><a href="#">偏好设置</a></li>
+              <li>
+                <a href="#" data-toggle="modal" data-target="#mySettingModal">偏好设置</a>
+              </li>
               <li className="underscore">
-                <a onClick={this.handleLogOut} >退出登录</a>
+                <a onClick={this.handleLogOut}>退出登录</a>
               </li>
             </ul>
           </span>

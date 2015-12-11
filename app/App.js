@@ -3,6 +3,7 @@ var Link = require('react-router');
 var {dropdown} = require('bootstrap-sass');
 
 import Navigation from './components/Navigation';
+import Setting from './components/Setting';
 
 var App = React.createClass({
   render: function () {
@@ -19,6 +20,8 @@ var App = React.createClass({
         <div className="content-wrap container-fluid">
           {this.props.children}
         </div>
+
+        <Setting/>
       </div>
     );
   }
