@@ -7,9 +7,14 @@ var AppStore = require('../../stores/AppStore');
 
 var Navigation = React.createClass({
   getInitialState: function () {
-    return {}
+    return {
+      syncFlag: true,
+      notificationFlag: false
+    }
   },
   render: function () {
+    let toggleSyncClass = this.state.syncFlag ? 'fa fa-check-square-o f20' : 'fa fa-square-o f20';
+    let toggleNotificationClass = this.state.notificationFlag ? 'fa fa-check-square-o f20' : 'fa fa-square-o f20';
     return (
       <div className="user-setting">
         <div className="modal fade" id="mySettingModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -22,28 +27,39 @@ var Navigation = React.createClass({
               </div>
               <div className="modal-body">
                 <div className="user-setting-content">
-                  <h3 className="mb10">存储 同步</h3>
-
                   <form className="notification-form">
-                    <div className="form-group clearfix">
+                    <div className="form-group mb20 clearfix">
                       <label>数据存储采用云存储与多终端同步方式</label>
 
-                      <div className="toggle blue pull-right">
-                        <i className="fa fa-square-o f20"></i>
+                      <div className="pull-right" onClick={this.toggleSyncHandle}>
+                        <i className={toggleSyncClass}></i>
+                      </div>
+                    </div>
+                    <div className="form-group clearfix">
+                      <label>启用桌面通知</label>
+
+                      <div className="pull-right" onClick={this.toggleNotificationHandle}>
+                        <i className={toggleNotificationClass}></i>
                       </div>
                     </div>
                   </form>
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     );
+  },
+  toggleSyncHandle: function () {
+    this.setState({
+      syncFlag: !this.state.syncFlag
+    });
+  },
+  toggleNotificationHandle: function () {
+    this.setState({
+      notificationFlag: !this.state.notificationFlag
+    });
   }
 });
 

@@ -8,32 +8,41 @@ var Home = React.createClass({
   },
   render: function () {
     return (
-      <div>
-        <div className="container">
-          <div className="clearfix">
-            <div className="block">
-              <a href="#/chat">
-                <h3><i className="fa fa-paper-plane-o mr10"></i>Open Chat</h3>
-              </a>
+      <div className="container-fluid mt40">
+        <div className="row">
+          <div className="col-sm-6 col-md-4 col-lg-3">
+            <div className="thumbnail">
+              <div className="caption">
+                <h3>
+                  <a href="#/chat">
+                    <i className="fa fa-paper-plane-o mr10"></i>Open Chat
+                  </a>
+                </h3>
 
-              <p>
-                开放聊天室
-              </p>
+                <p>
+                  开放聊天室
+                </p>
+              </div>
             </div>
-            <div className="block">
-              <a href="#/todo">
-                <h3><i className="fa fa-list-ol mr10"></i>Open Todo</h3>
-              </a>
-
-              <p>
-                开放任务列表应用
-              </p>
-              <ul>
-                <li>1. 添加任务分类</li>
-                <li>2. 添加任务</li>
-                <li>3. 本地存储</li>
-                <li>4. 云端存储</li>
-              </ul>
+          </div>
+          <div className="col-sm-6 col-md-4 col-lg-3">
+            <div className="thumbnail">
+              <div className="caption">
+                <h3>
+                  <a href="#/todo">
+                    <i className="fa fa-list-ol mr10"></i>Open Todo
+                  </a>
+                </h3>
+                <p>
+                  开放任务列表应用
+                </p>
+                <ul>
+                  <li>1. 添加任务分类</li>
+                  <li>2. 添加任务</li>
+                  <li>3. 本地存储</li>
+                  <li>4. 云端存储</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

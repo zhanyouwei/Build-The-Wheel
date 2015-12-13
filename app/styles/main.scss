@@ -1,8 +1,10 @@
 //@import "/node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "variables";
 @import "base";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/grid";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/modals";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/thumbnails";
 
 :root {
   --brand-color: #61dafb;
