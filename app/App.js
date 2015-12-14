@@ -20,7 +20,6 @@ var App = React.createClass({
         <div className="content-wrap container-fluid">
           {this.props.children}
         </div>
-
         <Setting/>
       </div>
     );

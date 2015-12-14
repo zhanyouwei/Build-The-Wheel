@@ -17,6 +17,7 @@ var App = require('./App');
 var Home = require('./Home');
 var LoginPage = require('./components/LoginPage');
 let RegisterPage = require('./components/RegisterPage');
+let AboutPage = require('./components/AboutPage');
 var TodoApp = require('./application/Todo/js/components/TodoApp.react');
 var ChatApp = require('./application/Chat/js/components/ChatApp.react');
 
@@ -25,6 +26,7 @@ ReactDOM.render((
     <Route name="app" path="/" component={App}>
       <Route name="todo" path="/todo" component={TodoApp}/>
       <Route name="todo" path="/chat" component={ChatApp}/>
+      <Route name="about" path="/about" component={AboutPage}/>
       <IndexRoute name="home" component={Home}/>
     </Route>
     <Route path="/login" component={LoginPage}/>
