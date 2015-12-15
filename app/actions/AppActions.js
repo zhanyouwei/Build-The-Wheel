@@ -27,6 +27,7 @@ var TodoActions = {
     });
   },
   logOut: function () {
+    console.log('logOut');
     AppDispatcher.dispatch({
       actionType: AppConstants.APP_LOGOUT
     });
@@ -37,6 +38,13 @@ var TodoActions = {
       name: name,
       email: email,
       pass: pass
+    });
+  },
+  updateUser: function (data) {
+    console.log(data);
+    AppDispatcher.dispatch({
+      actionType: AppConstants.APP_UPDATE_USER,
+      data: data
     });
   }
 };

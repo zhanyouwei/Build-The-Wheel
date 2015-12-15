@@ -4,17 +4,28 @@ var React = require('react');
 var Link = require('react-router');
 var classNames = require('classnames');
 var AppStore = require('../../stores/AppStore');
+var AppActions = require('../../actions/AppActions');
+var AppConstants = require('../../constants/AppConstants');
+
+function getUserProfile(){
+  return AppStore.getLoginUserInfo()
+}
 
 var Navigation = React.createClass({
   getInitialState: function () {
-    return {
-      syncFlag: true,
-      notificationFlag: false
-    }
+    var user = getUserProfile();
+    return user.attributes;
+  },
+  componentDidMount: function () {
+    AppStore.addEventListener(AppConstants.APP_LOGOUT, this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    AppStore.removeEventListener(AppConstants.APP_LOGOUT, this._onChange);
   },
   render: function () {
-    let toggleSyncClass = this.state.syncFlag ? 'fa fa-toggle-off f20' : 'fa fa-toggle-on f20';
-    let toggleNotificationClass = this.state.notificationFlag ? 'fa fa-toggle-off f20' : 'fa fa-toggle-on f20';
+    let toggleSyncClass = this.state.sync ? 'fa fa-toggle-on f20' : 'fa fa-toggle-off f20';
+    let toggleNotificationClass = this.state.notification ? 'fa fa-toggle-on f20' : 'fa fa-toggle-off f20';
     return (
       <div className="user-setting">
         <div className="modal fade" id="mySettingModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -51,15 +62,23 @@ var Navigation = React.createClass({
       </div>
     );
   },
+  shouldComponentUpdate: function (nextProps,  nextState) {
+    AppActions.updateUser(nextState);
+    return true;
+  },
   toggleSyncHandle: function () {
     this.setState({
-      syncFlag: !this.state.syncFlag
+      sync: !this.state.sync
     });
+    console.log(this.state);
   },
   toggleNotificationHandle: function () {
     this.setState({
-      notificationFlag: !this.state.notificationFlag
+      notification: !this.state.notification
     });
+  },
+  _onChange: function () {
+    console.log('onChange');
   }
 });
 

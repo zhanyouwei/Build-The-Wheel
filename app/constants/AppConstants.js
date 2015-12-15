@@ -8,4 +8,5 @@ module.exports = keyMirror({
   APP_LOGIN: null,
   APP_LOGOUT: null,
   APP_REGISTER: null,
+  APP_UPDATE_USER: null,
 });

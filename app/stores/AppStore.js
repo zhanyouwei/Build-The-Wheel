@@ -6,10 +6,8 @@ var superagent = require('superagent');
 var AppConfig = require('../config/app.config');
 var AV = require('avoscloud-sdk');
 AV.initialize(AppConfig.LC.X_LC_Id, AppConfig.LC.X_LC_Key);
-// 创建AV.Object子类.
-// 该语句应该只声明一次
-const Post = AV.Object.extend("UserProfile");
-//const _User = AV.Object.extend("_User");
+// 创建AV.Object子类. 该语句应该只声明一次
+var User = AV.Object.extend("_User");
 
 const LOGIN_EVENT = 'login';//登录事件
 const LOGOUT_EVENT = 'logOut';//登录事件
@@ -44,7 +42,7 @@ function login(email, pass, callback) {
   });
 }
 
-function logOut(callback){
+function logOut(callback) {
   AV.User.logOut();
   callback();
 }
@@ -77,30 +75,10 @@ function register(name, email, pass, callback) {
   });
 }
 
-function getUserProfile(objectId) {
-  superagent
-    .get('https://api.leancloud.cn/1.1/login')
-    .set({
-      'X-LC-Id': 'tnoc9Hlo0Di1s6jKdq25vJSp',
-      'X-LC-Key': 'qXh9eqznzTdezr5znN8PqWEV'
-    })
-    .accept('application/json')
-    .query({
-      username: email,
-      password: pass
-    })
-    .end((err, res) => {
-      if (err) {
-        if (err.status === 404) {
-          console.log(err);
-        } else {
-          console.log(err.error);
-        }
-        callback(err, null);
-      } else {
-        callback(null, res.body);
-      }
-    });
+function updateUser(data) {
+  var currentUser = AV.User.current();
+  currentUser.set(data);
+  currentUser.save();
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -133,7 +111,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
 // Register callback to handle all updates
 AppDispatcher.register(function (action) {
-  var email, pass, name;
+  var email, pass, name, data;
   switch (action.actionType) {
     case AppConstants.APP_LOGIN:
       email = action.email;
@@ -150,7 +128,7 @@ AppDispatcher.register(function (action) {
       break;
     case AppConstants.APP_LOGOUT:
       logOut(function () {
-        AppStore.emitEvent(LOGOUT_EVENT);
+        AppStore.emitEvent(AppConstants.APP_LOGOUT);
       });
       break;
     case AppConstants.APP_REGISTER:
@@ -161,6 +139,16 @@ AppDispatcher.register(function (action) {
         register(name, email, pass, function (err, result) {
           if (result) {
             AppStore.emitEvent(REGISTER_EVENT);
+          }
+        });
+      }
+      break;
+    case AppConstants.APP_UPDATE_USER:
+      data = action.data;
+      if (data) {
+        updateUser(data, function (err) {
+          if (!err) {
+            AppStore.emitEvent(AppConstants.APP_UPDATE_USER);
           }
         });
       }

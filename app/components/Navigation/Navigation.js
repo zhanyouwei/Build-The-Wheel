@@ -5,6 +5,7 @@ var Link = require('react-router');
 var classNames = require('classnames');
 var AppStore = require('../../stores/AppStore');
 var AppActions = require('../../actions/AppActions');
+var AppConstants = require('../../constants/AppConstants');
 
 var Navigation = React.createClass({
   getInitialState: function () {
@@ -14,11 +15,11 @@ var Navigation = React.createClass({
   },
 
   componentDidMount: function () {
-    AppStore.addEventListener('logOut', this._onChange);
+    AppStore.addEventListener(AppConstants.APP_LOGOUT, this._onChange);
   },
 
   componentWillUnmount: function () {
-    AppStore.removeEventListener('logOut', this._onChange);
+    AppStore.removeEventListener(AppConstants.APP_LOGOUT, this._onChange);
   },
   render: function () {
     let element;
