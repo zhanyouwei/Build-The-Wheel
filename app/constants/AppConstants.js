@@ -6,13 +6,6 @@ var keyMirror = require('keymirror');
 
 module.exports = keyMirror({
   APP_LOGIN: null,
+  APP_LOGOUT: null,
   APP_REGISTER: null,
-
-  LC: {
-    'X_LC_Id': 'H7CTUT7nifyX9bC88HVfnuMM',
-    'X_LC_Key': '8kUbCGgOvML7xtFMLPOQgoQ6',
-    'URL': 'https://api.leancloud.cn/1.1'
-  },
-
-  APP_PREFIX: 'BUILD_THE_WHEEL'
 });

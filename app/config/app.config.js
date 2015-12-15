@@ -9,5 +9,5 @@ module.exports = {
     'X_LC_Key': '8kUbCGgOvML7xtFMLPOQgoQ6',
     'URL': 'https://api.leancloud.cn/1.1'
   },
-  APP_PREFIX: 'BUILD_THE_WHEEL'
+  APP_PREFIX: 'BUILD_THE_WHEEL_'
 };

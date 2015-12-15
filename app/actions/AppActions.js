@@ -26,9 +26,15 @@ var TodoActions = {
       pass: pass
     });
   },
-  register: function (email, pass) {
+  logOut: function () {
+    AppDispatcher.dispatch({
+      actionType: AppConstants.APP_LOGOUT
+    });
+  },
+  register: function (name,email, pass) {
     AppDispatcher.dispatch({
       actionType: AppConstants.APP_REGISTER,
+      name: name,
       email: email,
       pass: pass
     });

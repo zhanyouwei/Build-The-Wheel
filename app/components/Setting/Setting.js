@@ -13,8 +13,8 @@ var Navigation = React.createClass({
     }
   },
   render: function () {
-    let toggleSyncClass = this.state.syncFlag ? 'fa fa-check-square-o f20' : 'fa fa-square-o f20';
-    let toggleNotificationClass = this.state.notificationFlag ? 'fa fa-check-square-o f20' : 'fa fa-square-o f20';
+    let toggleSyncClass = this.state.syncFlag ? 'fa fa-toggle-off f20' : 'fa fa-toggle-on f20';
+    let toggleNotificationClass = this.state.notificationFlag ? 'fa fa-toggle-off f20' : 'fa fa-toggle-on f20';
     return (
       <div className="user-setting">
         <div className="modal fade" id="mySettingModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -8,6 +8,7 @@ var AppStore = require('../../stores/AppStore');
 var RegisterPage = React.createClass({
   getInitialState: function () {
     return {
+      name: 'gis_warrior',
       email: 'gis_warrior@163.com',
       pass: '123123'
     }
@@ -29,6 +30,11 @@ var RegisterPage = React.createClass({
           <h1>{title}</h1>
 
           <p>
+            <input type="text" placeholder="用户名" value={this.state.name} onChange={this.handleChange('name')}
+                   className="form-control"/>
+          </p>
+
+          <p>
             <input type="text" placeholder="邮箱" value={this.state.email} onChange={this.handleChange('email')}
                    className="form-control"/>
           </p>
@@ -47,7 +53,7 @@ var RegisterPage = React.createClass({
   },
 
   registerHandle: function (e) {
-    AppActions.register(this.state.email, this.state.pass);
+    AppActions.register(this.state.name,this.state.email, this.state.pass);
   },
 
   handleChange: function (key) {

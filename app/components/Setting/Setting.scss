@@ -1,5 +1,16 @@
-.user-setting {
-    .notification-form {
+@import "../../styles/variables";
 
+.user-setting {
+  .notification-form {
+    i {
+      cursor: pointer;
+      font-size: 30px;
     }
+    .fa-toggle-on{
+      color: $green-primary
+    }
+    .fa-toggle-off {
+      color: $gray-light;
+    }
+  }
 }

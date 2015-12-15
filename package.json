@@ -15,6 +15,7 @@
   "dependencies": {
     "antd": "^0.10.0-beta28",
     "assert": "1.3.0",
+    "avoscloud-sdk": "^0.6.7",
     "babel": "^5.4.7",
     "babel-core": "^5.8.23",
     "babel-eslint": "^4.1.6",
