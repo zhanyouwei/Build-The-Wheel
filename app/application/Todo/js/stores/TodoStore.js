@@ -9,13 +9,34 @@ var TodoConstants = require('../constants/TodoConstants');
 var AppConstants = require('../../../../constants/AppConstants');
 var assign = require('object-assign');
 const moment = require('moment');
-const superagent = require('superagent');
+const _ = require('underscore');
 var localstorage = require('../core/localstorage.util');
 var AppConfig = require('../../../../config/app.config');
+var AppStore = require('../../../../stores/AppStore');
+
+var AV = require('avoscloud-sdk');
+AV.initialize(AppConfig.LC.X_LC_Id, AppConfig.LC.X_LC_Key);
+// 创建AV.Object子类. 该语句应该只声明一次
+var Todo = AV.Object.extend("Todo");
 
 var CHANGE_EVENT = 'change';
 
-var _todos = JSON.parse(localStorage.getItem('todos')) || {};
+var _todos = {};
+AV.Query.doCloudQuery('select * from Todo', {
+  success: function (result) {
+    console.log(result.results);
+    _.each(result.results, function (item) {
+      _todos[item.id] = assign({id: item.id}, item.attributes);
+    });
+    localStorage.setItem('todos', JSON.stringify(_todos));
+    TodoStore.emitChange();
+  },
+  error: function (error) {
+    //查询失败，查看 error
+    console.dir(error);
+  }
+});
+
 
 /**
  * Create a TODO item.
@@ -23,38 +44,23 @@ var _todos = JSON.parse(localStorage.getItem('todos')) || {};
  * @param callback
  */
 function create(text, callback) {
-  // Hand waving here -- not showing how this interacts with XHR or persistent
-  // server-side storage.
-  // Using the current timestamp + random number in place of a real id.
-  let todo = {
+  let data = {
     complete: false,
     text: text,
     completeAt: null
   };
-  superagent
-    .post(AppConstants.LC.URL + '/classes/Todo')
-    .set({
-      'X-LC-Id': AppConfig.LC.X_LC_Id,
-      'X-LC-Key': AppConfig.LC.X_LC_Key
-    })
-    .accept('application/json')
-    .send(todo)
-    .end((err, res) => {
-      if (err) {
-        if (err.status === 404) {
-          console.log(err);
-        } else {
-          console.log(err.error);
-        }
-        callback(err, null);
-      } else {
-        _todos[res.body.objectId] = assign(todo, {
-          id: res.body.objectId
-        }, res.body);
-        localStorage.setItem('todos', JSON.stringify(_todos));
-        callback(null, res.body);
-      }
-    });
+  let todoObj = new Todo();
+  todoObj.save(data, {
+    success: function (todoObj) {
+      _todos[todoObj.id] = assign(data, {
+        id: todoObj.id
+      }, todoObj.attributes);
+      callback(null);
+    },
+    error: function (res, error) {
+      callback(error);
+    }
+  });
 }
 
 /**
@@ -74,8 +80,8 @@ function update(id, updates) {
  *     updated.
  */
 function updateAll(updates) {
-  for (var id in _todos) {
-    update(id, updates);
+  for (var objectId in _todos) {
+    update(objectId, updates);
   }
 }
 
@@ -85,6 +91,12 @@ function updateAll(updates) {
  */
 function destroy(id) {
   delete _todos[id];
+  var query = new AV.Query(Todo);
+  query.get(id, {
+    success: function (todo) {
+      todo.destroy();
+    }
+  });
   localStorage.setItem('todos', JSON.stringify(_todos));
 }
 
@@ -95,6 +107,12 @@ function destroyCompleted() {
   for (var id in _todos) {
     if (_todos[id].complete) {
       destroy(id);
+      var query = new AV.Query(Todo);
+      query.get(id, {
+        success: function (todo) {
+          todo.destroy();
+        }
+      });
     }
   }
   localStorage.setItem('todos', JSON.stringify(_todos));
@@ -150,8 +168,9 @@ AppDispatcher.register(function (action) {
     case TodoConstants.TODO_CREATE:
       text = action.text.trim();
       if (text !== '') {
-        create(text, function (err, result) {
+        create(text, function (err) {
           if (!err) {
+            localStorage.setItem('todos', JSON.stringify(_todos));
             TodoStore.emitChange();
           }
         });
