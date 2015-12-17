@@ -11,7 +11,7 @@ var Header = require('./Header.react');
 var MainSection = require('./MainSection.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
-const SideBar = require('./SideBar.react');
+//const SideBar = require('./SideBar.react');
 
 /**
  * 获取任务
@@ -43,13 +43,12 @@ var TodoApp = React.createClass({
   render: function () {
     return (
       <div id="todoapp">
-        <SideBar/>
-          <Header />
-          <MainSection
-            allTodos={this.state.allTodos}
-            areAllComplete={this.state.areAllComplete}
-            />
-          <Footer allTodos={this.state.allTodos}/>
+        <Header />
+        <MainSection
+          allTodos={this.state.allTodos}
+          areAllComplete={this.state.areAllComplete}
+          />
+        <Footer allTodos={this.state.allTodos}/>
       </div>
     );
   },
